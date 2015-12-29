@@ -1,15 +1,17 @@
 package br.com.acp.snippet.model;
 
-import org.springframework.data.annotation.Id;
-
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class Snippet implements Serializable {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     private String description;
     private String icon;
+    @Lob
     private String code;
 
     public Snippet() {
@@ -21,11 +23,11 @@ public class Snippet implements Serializable {
         this.code = code;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -51,15 +53,5 @@ public class Snippet implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    @Override
-    public String toString() {
-        return "Snippet{" +
-                "id='" + id + '\'' +
-                ", description='" + description + '\'' +
-                ", icon='" + icon + '\'' +
-                ", code='" + code + '\'' +
-                '}';
     }
 }
