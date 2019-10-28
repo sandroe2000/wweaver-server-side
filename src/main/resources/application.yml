@@ -30,3 +30,6 @@ logging:
     file: "%d %-5level [%thread] %logger : %msg%n"
   level:
     br.com.sdvs.builder: INFO
+
+app:
+  path: C:\sdvs-workspaces\wweaver-server-side\project

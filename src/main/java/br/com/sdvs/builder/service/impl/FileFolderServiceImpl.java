@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import br.com.sdvs.builder.service.FileFolderService;
 import br.com.sdvs.builder.model.File;
@@ -18,6 +19,9 @@ import br.com.sdvs.builder.repository.FolderRepository;
 
 @Service
 public class FileFolderServiceImpl implements FileFolderService {
+
+    @Value("${app.path}")
+    private String pathToFileFolder;
 
     private final FileRepository fileRepository;
     private final FolderRepository folderRepository;
@@ -32,7 +36,7 @@ public class FileFolderServiceImpl implements FileFolderService {
 
         boolean isCreated = false;
         File entity = null;
-        String appPath = "/home/sandro/DEV/wweaver-server-side/project/".concat(file.getPath());
+        String appPath = pathToFileFolder.concat(file.getPath());
 
         try {
             entity = fileRepository.getOne(file.getId());
@@ -54,11 +58,7 @@ public class FileFolderServiceImpl implements FileFolderService {
         
         boolean isCreated = false;
         Folder entity = null;
-        String appPath = "/home/sandro/DEV/wweaver-server-side/project/"
-                         +folder.getPath()
-                         +"/"
-                         +folder.getName()
-                         +"/";
+        String appPath = pathToFileFolder+folder.getPath()+"/"+folder.getName()+"/";
 
         try {
             entity = folderRepository.getOne(folder.getId());
