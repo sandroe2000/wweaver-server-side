@@ -33,15 +33,18 @@ public class File implements Serializable {
 
     private Double size;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
+                locale = "pt-BR", timezone = "Brazil/East")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate created;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
+                locale = "pt-BR", timezone = "Brazil/East")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate modified;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
+                locale = "pt-BR", timezone = "Brazil/East")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate disabled;
 
@@ -53,7 +56,8 @@ public class File implements Serializable {
     public File() {
     }
 
-    public File(Long id, String name, String path, String content, String hash, Double size, LocalDate created,
+    public File(Long id, String name, String path, String content, 
+                String hash, Double size, LocalDate created,
                 LocalDate modified, LocalDate disabled, Folder folder) {
         this.id = id;
         this.name = name;

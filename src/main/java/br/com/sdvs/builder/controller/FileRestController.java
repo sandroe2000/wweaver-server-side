@@ -33,6 +33,7 @@ public class FileRestController {
         return fileRepository.findById(id)
             .map(record -> {
                 record.setName( file.getName() );
+                record.setContent( file.getContent() );
                 record.setModified( LocalDate.now() );
                 if(file.getDisabled() != null){
                     record.setDisabled( LocalDate.now() );

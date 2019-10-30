@@ -31,15 +31,18 @@ public class Folder implements Serializable {
     private String name;
     private String path;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
+                locale = "pt-BR", timezone = "Brazil/East")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate created;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
+                locale = "pt-BR", timezone = "Brazil/East")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate modified;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
+                locale = "pt-BR", timezone = "Brazil/East")
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate disabled;
 
@@ -53,7 +56,8 @@ public class Folder implements Serializable {
     private Set<Folder> folders = new HashSet<Folder>();
 
     @JsonIgnoreProperties({"parent", "folders", "files"})    
-    @OneToMany(mappedBy = "folder",fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "folder",fetch=FetchType.LAZY, 
+               cascade={CascadeType.ALL})
     private Set<File> files = new HashSet<File>();
 
     public Folder() {

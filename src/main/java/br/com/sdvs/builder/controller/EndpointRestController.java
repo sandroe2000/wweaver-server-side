@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @RestController
-@RequestMapping("endpoints")
+@RequestMapping("/")
 public class EndpointRestController {
 
     private final EndpointRepository repository;
@@ -33,25 +33,30 @@ public class EndpointRestController {
     }
 
     @GetMapping()
+    String none(){
+        return "OK";
+    }
+
+    @GetMapping(value = "/endpoints")
     Set<Endpoint> findByDisabledIsNull(){
         return repository.findByDisabledIsNull()
                 .orElseThrow(() -> new NotContextException(String.format("Nenhum endipoint foi encontrado!")));
     }
 
-    @GetMapping(value = "pageable")
+    @GetMapping(value = "/endpoints/pageable")
     Page<Endpoint> findPageable(@RequestParam("uri") String uri,
                                 @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return repository.findPageable(uri.toUpperCase().concat("%"), pageable)
                 .orElseThrow(() -> new NotContextException(String.format("Nenhum endipoint foi encontrado!")));
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/endpoints/{id}")
     Endpoint findById(@PathVariable("id") Long id){
         return repository.findById(id)
                 .orElseThrow(() -> new NotContextException(String.format("Endipoint [id: %d] não encontrado!", id)));
     }
 
-    @GetMapping(value = "/search/{uri}")
+    @GetMapping(value = "/endpoints/search/{uri}")
     Endpoint findOneByDescription(@PathVariable("uri") String uri) throws NotContextException {
         return repository.findByUri(uri.toUpperCase().concat("%"))
                 .orElseThrow(() -> new NotContextException(String.format("Endipoint [uri: %s] não encontrado!", uri) ));
@@ -62,7 +67,7 @@ public class EndpointRestController {
         return repository.save(entity);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/endpoints/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Endpoint> update(@PathVariable("id") Long id,
                                     @RequestBody Endpoint entity) {
         return repository.findById(id)
@@ -78,7 +83,7 @@ public class EndpointRestController {
                 }).orElseThrow(() -> new NotContextException(String.format("Endipoint [id: %d] não encontrado!", id)));
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/endpoints/{id}")
     void delete(@PathVariable("id") long id) {        
         repository.deleteById(id);
     }

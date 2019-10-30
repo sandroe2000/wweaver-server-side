@@ -35,13 +35,14 @@ public class FileFolderServiceImpl implements FileFolderService {
     public boolean createFile(File file) {
 
         boolean isCreated = false;
-        File entity = null;
-        String appPath = pathToFileFolder.concat(file.getPath());
-
+        
         try {
-            entity = fileRepository.getOne(file.getId());
+            File entity = fileRepository.getOne(file.getId());
+            String appPath = pathToFileFolder + 
+                             file.getPath() +
+                             entity.getName();
             if (entity != null) {
-                FileWriter fw = new FileWriter(appPath.concat(entity.getName()));
+                FileWriter fw = new FileWriter(appPath);
                 fw.write(entity.getContent());
                 fw.close();
                 isCreated = true;
@@ -54,14 +55,18 @@ public class FileFolderServiceImpl implements FileFolderService {
     }
 
     @Override
-    public boolean createFolder(Folder folder) {
+    public boolean createFolder(Long id) {
         
         boolean isCreated = false;
-        Folder entity = null;
-        String appPath = pathToFileFolder+folder.getPath()+"/"+folder.getName()+"/";
-
+        
         try {
-            entity = folderRepository.getOne(folder.getId());
+            Folder entity = folderRepository.getOne(id);
+            String appPath = pathToFileFolder + 
+                             entity.getPath() + 
+                             "/" + 
+                             entity.getName() + 
+                             "/";
+            
             if (entity != null) {
                 isCreated = new java.io.File(appPath).mkdirs();
             }
