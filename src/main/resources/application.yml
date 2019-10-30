@@ -32,4 +32,5 @@ logging:
     br.com.sdvs.builder: INFO
 
 app:
-  path: C:\sdvs-workspaces\wweaver-server-side\project
+  path: /home/sandro/DEV/woolaweaver/project
+  #path: C:\sdvs-workspaces\wweaver-server-side\project
