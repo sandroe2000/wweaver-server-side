@@ -22,7 +22,7 @@ spring:
     multipart: 
       max-file-size: 10
       max-request-size: 50
-          
+
 logging:
   file: logs/dev_app.log
   pattern:
@@ -30,7 +30,6 @@ logging:
     file: "%d %-5level [%thread] %logger : %msg%n"
   level:
     br.com.sdvs.builder: INFO
-
+    
 app:
-  path: /home/sandro/DEV/woolaweaver/project
-  #path: C:\sdvs-workspaces\wweaver-server-side\project
+  path: /sdvs-workspaces/wweaver-server-side/project

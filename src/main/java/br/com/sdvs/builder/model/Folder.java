@@ -65,7 +65,7 @@ public class Folder implements Serializable {
 
     public Folder(Long id, 
                   String name, 
-                  String path, 
+                  String  path, 
                   LocalDate created, 
                   LocalDate modified, 
                   LocalDate disabled, 

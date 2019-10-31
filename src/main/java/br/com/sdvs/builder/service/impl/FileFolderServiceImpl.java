@@ -8,12 +8,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import br.com.sdvs.builder.service.FileFolderService;
 import br.com.sdvs.builder.model.File;
 import br.com.sdvs.builder.model.Folder;
+import br.com.sdvs.builder.vo.ParentFolderVo;
 import br.com.sdvs.builder.repository.FileRepository;
 import br.com.sdvs.builder.repository.FolderRepository;
 
@@ -26,7 +26,8 @@ public class FileFolderServiceImpl implements FileFolderService {
     private final FileRepository fileRepository;
     private final FolderRepository folderRepository;
 
-    FileFolderServiceImpl(FileRepository fileRepository, FolderRepository folderRepository){
+    FileFolderServiceImpl(FileRepository fileRepository, 
+                          FolderRepository folderRepository){
         this.fileRepository = fileRepository;
         this.folderRepository = folderRepository;
     }
@@ -80,9 +81,8 @@ public class FileFolderServiceImpl implements FileFolderService {
     @Override
     public String getAbsolutePath(Long idParent) {
         
-        String retorno = "";
-        String dirSeparator = "/";
-        List<String> foldersNames = new ArrayList<String>();
+        List<ParentFolderVo> parentFolders = new ArrayList<ParentFolderVo>();
+        String result = "[";
             
         do{
             Folder folder = folderRepository.findById(idParent).get();
@@ -90,15 +90,19 @@ public class FileFolderServiceImpl implements FileFolderService {
                 idParent = null;
             }else{
                 idParent = folder.getParent().getId();
-            }         
-            foldersNames.add(folder.getName());
+            }  
+            ParentFolderVo vo = new ParentFolderVo();
+            vo.setId(folder.getId());
+            vo.setName(folder.getName());
+            parentFolders.add(vo);
         }while(idParent != null);
 
-        for (int i = foldersNames.size() - 1; i >= 0; i--) {
-            retorno += foldersNames.get(i).concat(dirSeparator);
+        for (int i = parentFolders.size() - 1; i >= 0; i--) {
+            String vo = "{\"id\": "+parentFolders.get(i).getId()+", \"name\": \""+parentFolders.get(i).getName()+"\"}, ";
+            result += vo;
         }
 
-        return dirSeparator.concat(retorno);
+        return result.concat("]");
     }
 
     @Override
