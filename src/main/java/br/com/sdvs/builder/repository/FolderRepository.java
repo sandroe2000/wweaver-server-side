@@ -11,6 +11,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long> {
     
     @Query("SELECT f FROM Folder f WHERE f.parent.id LIKE ?1")
     Folder findByParent(Long parentId);
-
+    
     Optional<Folder> findByIdAndDisabledIsNull(Long id);
 }

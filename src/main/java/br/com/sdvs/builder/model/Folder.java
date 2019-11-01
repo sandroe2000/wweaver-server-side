@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -53,11 +55,12 @@ public class Folder implements Serializable {
     
     @JsonIgnoreProperties({"parent", "folders", "files"})
     @OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+    @OrderBy("name ASC")
     private Set<Folder> folders = new HashSet<Folder>();
 
     @JsonIgnoreProperties({"parent", "folders", "files"})    
-    @OneToMany(mappedBy = "folder",fetch=FetchType.LAZY, 
-               cascade={CascadeType.ALL})
+    @OneToMany(mappedBy = "folder",fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+    @OrderBy("name ASC")
     private Set<File> files = new HashSet<File>();
 
     public Folder() {

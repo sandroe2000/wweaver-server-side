@@ -7,7 +7,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import br.com.sdvs.builder.service.FileFolderService;
@@ -26,8 +31,7 @@ public class FileFolderServiceImpl implements FileFolderService {
     private final FileRepository fileRepository;
     private final FolderRepository folderRepository;
 
-    FileFolderServiceImpl(FileRepository fileRepository, 
-                          FolderRepository folderRepository){
+    FileFolderServiceImpl(FileRepository fileRepository, FolderRepository folderRepository) {
         this.fileRepository = fileRepository;
         this.folderRepository = folderRepository;
     }
@@ -36,12 +40,10 @@ public class FileFolderServiceImpl implements FileFolderService {
     public boolean createFile(File file) {
 
         boolean isCreated = false;
-        
+
         try {
             File entity = fileRepository.getOne(file.getId());
-            String appPath = pathToFileFolder + 
-                             file.getPath() +
-                             entity.getName();
+            String appPath = pathToFileFolder + file.getPath() + entity.getName();
             if (entity != null) {
                 FileWriter fw = new FileWriter(appPath);
                 fw.write(entity.getContent());
@@ -57,17 +59,13 @@ public class FileFolderServiceImpl implements FileFolderService {
 
     @Override
     public boolean createFolder(Long id) {
-        
+
         boolean isCreated = false;
-        
+
         try {
             Folder entity = folderRepository.getOne(id);
-            String appPath = pathToFileFolder + 
-                             entity.getPath() + 
-                             "/" + 
-                             entity.getName() + 
-                             "/";
-            
+            String appPath = pathToFileFolder + entity.getPath() + "/" + entity.getName() + "/";
+
             if (entity != null) {
                 isCreated = new java.io.File(appPath).mkdirs();
             }
@@ -80,29 +78,32 @@ public class FileFolderServiceImpl implements FileFolderService {
 
     @Override
     public String getAbsolutePath(Long idParent) {
-        
+
         List<ParentFolderVo> parentFolders = new ArrayList<ParentFolderVo>();
-        String result = "[";
-            
-        do{
+        String result = "";
+
+        do {
             Folder folder = folderRepository.findById(idParent).get();
-            if(folder.getParent() == null){ 
+            if (folder.getParent() == null) {
                 idParent = null;
-            }else{
+            } else {
                 idParent = folder.getParent().getId();
-            }  
+            }
             ParentFolderVo vo = new ParentFolderVo();
             vo.setId(folder.getId());
             vo.setName(folder.getName());
             parentFolders.add(vo);
-        }while(idParent != null);
+        } while (idParent != null);
 
-        for (int i = parentFolders.size() - 1; i >= 0; i--) {
-            String vo = "{\"id\": "+parentFolders.get(i).getId()+", \"name\": \""+parentFolders.get(i).getName()+"\"}, ";
-            result += vo;
+        try {
+            Collections.reverse(parentFolders);
+            ObjectMapper mapper = new ObjectMapper();
+            result = mapper.writeValueAsString(parentFolders);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
 
-        return result.concat("]");
+        return result;
     }
 
     @Override
