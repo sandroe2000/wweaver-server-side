@@ -4,11 +4,6 @@ INSERT INTO FOLDER (ID, CREATED, DISABLED, MODIFIED, NAME, PARENT, PATH) VALUES 
 INSERT INTO FOLDER (ID, CREATED, DISABLED, MODIFIED, NAME, PARENT, PATH) VALUES (4, '2019-10-21', null, '2019-10-21', 'java', 3, '[{"id": 1, "name": "root"},{"id": 2, "name": "src"},{"id": 3, "name": "main"}]');
 INSERT INTO FOLDER (ID, CREATED, DISABLED, MODIFIED, NAME, PARENT, PATH) VALUES (5, '2019-10-21', null, '2019-10-21', 'resources', 3, '[{"id": 1, "name": "root"},{"id": 2, "name": "src"},{"id": 3, "name": "main"}]');
 
-INSERT INTO FOLDER_FOLDERS (FOLDER_ID, FOLDERS_ID) VALUES (1, 2);
-INSERT INTO FOLDER_FOLDERS (FOLDER_ID, FOLDERS_ID) VALUES (2, 3);
-INSERT INTO FOLDER_FOLDERS (FOLDER_ID, FOLDERS_ID) VALUES (3, 4);
-INSERT INTO FOLDER_FOLDERS (FOLDER_ID, FOLDERS_ID) VALUES (3, 5);
-
 INSERT INTO FILE (ID, CREATED, DISABLED, MODIFIED, NAME, CONTENT, SIZE, FOLDER, PATH) VALUES (1, '2019-10-21', null, '2019-10-21', 'index.html', '<html></html>', 1024, 3, '[{"id": 1, "name": "root"},{"id": 2, "name": "src"},{"id": 3, "name": "main"}]');
 INSERT INTO FILE (ID, CREATED, DISABLED, MODIFIED, NAME, CONTENT, SIZE, FOLDER, PATH) VALUES (2, '2019-10-21', null, '2019-10-21', 'folders.html', '<html></html>', 1024, 3, '[{"id": 1, "name": "root"},{"id": 2, "name": "src"},{"id": 3, "name": "main"}]');
 INSERT INTO FILE (ID, CREATED, DISABLED, MODIFIED, NAME, CONTENT, SIZE, FOLDER, PATH) VALUES (3, '2019-10-21', null, '2019-10-21', 'images.html', '<html></html>', 1024, 3, '[{"id": 1, "name": "root"},{"id": 2, "name": "src"},{"id": 3, "name": "main"}]');

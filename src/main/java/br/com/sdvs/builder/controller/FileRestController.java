@@ -5,6 +5,8 @@ import br.com.sdvs.builder.model.File;
 import br.com.sdvs.builder.repository.FileRepository;
 import br.com.sdvs.builder.service.FileFolderService;
 import java.time.LocalDate;
+import java.util.Set;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,11 @@ public class FileRestController {
     File findById(@PathVariable("id") Long id) {
         return fileRepository.findById(id)
                 .orElseThrow(() -> new NotContextException(String.format("Nenhuma Arquivo foi encontrado!")));
+    }
+
+    @GetMapping(value = "/folder/{id}")
+    Set<File> findByFolderId(@PathVariable("id") Long id) {
+        return fileRepository.findByFolderIdOrderByNameAsc(id);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

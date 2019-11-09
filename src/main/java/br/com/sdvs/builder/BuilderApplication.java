@@ -9,7 +9,7 @@ public class BuilderApplication {
 	//mvn spring-boot:run
 	//mvn clean package
 	public static void main(String[] args) {
-		//SSystem.setProperty("server.servlet.context-path", "/api");
+		//System.setProperty("server.servlet.context-path", "/api");
 		SpringApplication.run(BuilderApplication.class, args);
 	}
 }

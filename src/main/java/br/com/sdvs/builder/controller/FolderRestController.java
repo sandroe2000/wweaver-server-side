@@ -1,6 +1,7 @@
 package br.com.sdvs.builder.controller;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +31,12 @@ public class FolderRestController {
 
     @GetMapping(value = "/{id}")
     Folder findById(@PathVariable("id") Long id) {        
-        return folderRepository.findByIdAndDisabledIsNull(id).get();
+        return folderRepository.findById(id).get();
+    }
+
+    @GetMapping(value = "/parent/{id}")
+    Set<Folder> findByParent(@PathVariable("id") Long id) {        
+        return folderRepository.findByParentOrderByNameAsc(id);
     }
 
     @GetMapping(value = "/render/{id}")
@@ -52,8 +58,6 @@ public class FolderRestController {
                     record.setDisabled(LocalDate.now());
                 }
                 record.setParent(folder.getParent());
-                record.setFolders(folder.getFolders());
-                record.setFiles(folder.getFiles());
                 return folderRepository.save(record);
             }).orElseGet(() -> {
                 folder.setId(id);
@@ -64,6 +68,7 @@ public class FolderRestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     Folder save(@RequestBody Folder folder) {
         folder.setCreated(LocalDate.now());
+        folder.setModified(LocalDate.now());
         folder.setPath(service.getAbsolutePath(folder.getParent().getId()));
         return folderRepository.save(folder);
     }

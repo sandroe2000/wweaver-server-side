@@ -2,19 +2,13 @@ package br.com.sdvs.builder.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -48,20 +42,10 @@ public class Folder implements Serializable {
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate disabled;
 
-    @JsonIgnoreProperties({"parent", "folders", "files"})
-    @ManyToOne(cascade={CascadeType.ALL})
+    @JsonIgnoreProperties({"parent", "path"})
+    @ManyToOne()
     @JoinColumn(name="parent")
     private Folder parent;
-    
-    @JsonIgnoreProperties({"parent", "folders", "files"})
-    @OneToMany(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-    @OrderBy("name ASC")
-    private Set<Folder> folders = new HashSet<Folder>();
-
-    @JsonIgnoreProperties({"parent", "folders", "files"})    
-    @OneToMany(mappedBy = "folder",fetch=FetchType.LAZY, cascade={CascadeType.ALL})
-    @OrderBy("name ASC")
-    private Set<File> files = new HashSet<File>();
 
     public Folder() {
     }
@@ -72,17 +56,13 @@ public class Folder implements Serializable {
                   LocalDate created, 
                   LocalDate modified, 
                   LocalDate disabled, 
-                  Folder parent,
-                  Set<Folder> folders, 
-                  Set<File> files) {
+                  Folder parent) {
         this.id = id;
         this.name = name;
         this.created = created;
         this.modified = modified;
         this.disabled = disabled;
         this.parent = parent;
-        this.folders = folders;
-        this.files = files;
     }
 
     public Long getId() {
@@ -139,22 +119,6 @@ public class Folder implements Serializable {
 
     public void setParent(Folder parent) {
         this.parent = parent;
-    }
-
-    public Set<Folder> getFolders() {
-        return folders;
-    }
-
-    public void setFolders(Set<Folder> folders) {
-        this.folders = folders;
-    }
-    
-    public Set<File> getFiles() {
-        return files;
-    }
-    
-    public void setFiles(Set<File> files) {
-        this.files = files;
     }
     
     @Override

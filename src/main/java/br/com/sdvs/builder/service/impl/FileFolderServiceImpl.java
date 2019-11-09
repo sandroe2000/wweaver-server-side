@@ -63,7 +63,7 @@ public class FileFolderServiceImpl implements FileFolderService {
         boolean isCreated = false;
 
         try {
-            Folder entity = folderRepository.getOne(id);
+            Folder entity = folderRepository.findById(id).get();
             String appPath = pathToFileFolder + entity.getPath() + "/" + entity.getName() + "/";
 
             if (entity != null) {
