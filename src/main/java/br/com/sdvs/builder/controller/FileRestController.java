@@ -48,6 +48,7 @@ public class FileRestController {
                 record.setFolder( file.getFolder() );
                 record.setPath( service.getAbsolutePath(file.getFolder().getId()) );
                 record.setHash( service.getSHA256(file.getContent()) );
+                record.setSize( service.getSize(file.getContent()) );
                 return fileRepository.save(record);
             }).orElseGet(() -> {
                 file.setId(id);
@@ -59,7 +60,7 @@ public class FileRestController {
     File save(@RequestBody File file) {
         file.setCreated(LocalDate.now());
         file.setPath( service.getAbsolutePath(file.getFolder().getId()) );
-        file.setHash( service.getSHA256(file.getContent()) );
+        //file.setHash( service.getSHA256(file.getContent()) );
         return fileRepository.save(file);
     }
 

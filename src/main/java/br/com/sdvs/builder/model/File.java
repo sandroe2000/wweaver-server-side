@@ -1,6 +1,7 @@
 package br.com.sdvs.builder.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +33,7 @@ public class File implements Serializable {
     private String content;
     private String hash;
 
-    private Double size;
+    private BigDecimal size;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", 
                 locale = "pt-BR", timezone = "Brazil/East")
@@ -58,7 +59,7 @@ public class File implements Serializable {
     }
 
     public File(Long id, String name, String path, String content, 
-                String hash, Double size, LocalDate created,
+                String hash, BigDecimal size, LocalDate created,
                 LocalDate modified, LocalDate disabled, Folder folder) {
         this.id = id;
         this.name = name;
@@ -104,11 +105,11 @@ public class File implements Serializable {
         this.hash = hash;
     }
 
-    public Double getSize() {
+    public BigDecimal getSize() {
         return size;
     }
 
-    public void setSize(Double size) {
+    public void setSize(BigDecimal size) {
         this.size = size;
     }
 

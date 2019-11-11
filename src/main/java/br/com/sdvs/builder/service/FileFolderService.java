@@ -1,5 +1,7 @@
 package br.com.sdvs.builder.service;
 
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 import br.com.sdvs.builder.model.File;
 
@@ -10,4 +12,5 @@ public interface FileFolderService {
     boolean createFolder(Long id);
     String getAbsolutePath(Long idParent);
     String getSHA256(String content);
+    BigDecimal getSize(String content);
 }

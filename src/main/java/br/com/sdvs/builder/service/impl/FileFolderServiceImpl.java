@@ -2,7 +2,10 @@ package br.com.sdvs.builder.service.impl;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -108,24 +111,40 @@ public class FileFolderServiceImpl implements FileFolderService {
 
     @Override
     public String getSHA256(String content) {
-        
+
         String result = null;
 
-        try { 
+        try {
 
-            MessageDigest md = MessageDigest.getInstance("SHA-256"); 
-            byte[] messageDigest = md.digest(content.getBytes(StandardCharsets.UTF_8)); 
-            BigInteger number = new BigInteger(1, messageDigest); 
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] messageDigest = md.digest(content.getBytes(StandardCharsets.UTF_8));
+            BigInteger number = new BigInteger(1, messageDigest);
             StringBuilder hexString = new StringBuilder(number.toString(16));
-  
-            while (hexString.length() < 32) { 
-                hexString.insert(0, '0'); 
-            } 
-            result =  hexString.toString(); 
-        } catch (NoSuchAlgorithmException e) { 
-            throw new RuntimeException(e); 
+
+            while (hexString.length() < 32) {
+                hexString.insert(0, '0');
+            }
+            result = hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
 
+        return result;
+    }
+
+    @Override
+    public BigDecimal getSize(String content) {
+
+        BigDecimal result = new BigDecimal("1.0");
+        byte[] utf8Bytes;
+        try {
+            utf8Bytes = content.getBytes("UTF-8");
+            if((utf8Bytes.length /1024) > 1){
+                result = new BigDecimal(utf8Bytes.length /1024);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 }

@@ -13,10 +13,10 @@
 	<artifactId>builder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>builder</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Spring Boot</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>1.8</java.version>
 	</properties>
 
 	<dependencies>
