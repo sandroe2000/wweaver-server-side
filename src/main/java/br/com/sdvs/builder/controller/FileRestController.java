@@ -4,6 +4,8 @@ import br.com.sdvs.builder.exception.NotContextException;
 import br.com.sdvs.builder.model.File;
 import br.com.sdvs.builder.repository.FileRepository;
 import br.com.sdvs.builder.service.FileFolderService;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -60,7 +62,7 @@ public class FileRestController {
     File save(@RequestBody File file) {
         file.setCreated(LocalDate.now());
         file.setPath( service.getAbsolutePath(file.getFolder().getId()) );
-        //file.setHash( service.getSHA256(file.getContent()) );
+        file.setSize(new BigDecimal(0));
         return fileRepository.save(file);
     }
 
